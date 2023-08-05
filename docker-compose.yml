@@ -1,0 +1,26 @@
+# Docker Compose configuration for the URL Shortener application.
+
+# Define the services for the URL Shortener and MongoDB.
+services:
+  # Configuration for the url-shortener service.
+  url-shortener:
+    build: ./url-shortener
+    ports:
+      - 3000:3000
+    environment:
+      DB_URL: mongodb://db/url-shortener-docker
+    # Define the Docker image for the url-shortener service from ECR
+    # Note: The image from ECR has been temporarily removed due to pricing considerations.
+    # image: public.ecr.aws/d2t0w6d8/shorten-url-app:latest
+
+  # Configuration for the MongoDB database.
+  db:
+    image: mongo:4.0-xenial
+    ports:
+      - 27017:27017
+    volumes:
+      - url-shortener-docker:/data/db
+
+# Define the volumes
+volumes:
+  url-shortener-docker:
